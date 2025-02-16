@@ -11,7 +11,7 @@ describe('HomeComponent', () => {
     await TestBed.configureTestingModule({
       imports: [HomeComponent, HttpClientTestingModule]
     })
-    .compileComponents();
+      .compileComponents();
 
     httpTestingController = TestBed.inject(HttpTestingController);
 
@@ -23,4 +23,4 @@ describe('HomeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-});
+}); 

@@ -1,8 +1,7 @@
-// Expense Model
-
 // Authors: David Clemens, Hayat Soma, Angelica Gutierrez
 // Date: 10 February 2025
 // File Name: expense.js
+// Description: Models for expenses
 
 // Requirements
 const mongoose = require('mongoose');
@@ -16,27 +15,27 @@ let expenseSchema = new Schema({
         type: Number,
         required: true,
     },
-    userId:{
+    userId: {
         type: Number,
         required: true
     },
     categoryId: {
         type: Number,
         required: true
-    }, 
+    },
     amount: {
         type: Number
     },
     description: {
         type: String,
-        maxLength: [250, 'Description cannot be longer than 250 characters.']
+        maxLength: [25, 'Description cannot exceed 25 characters']
     },
     date: {
-        type: Date, 
-    }, 
+        type: String,
+    },
     dateCreated: {
         type: Date,
-        default: Date.now
+        default: new Date()
     }
 });
 

@@ -7,11 +7,46 @@ import { environment } from '../../environments/environment';
   standalone: true,
   imports: [],
   template: `
-    <h2>Main Content</h2>
-    <p>This is a basic layout for your MEAN stack project.</p>
-    <p><strong>Server message:</strong> {{ serverMessage }}</p>
+  <div class="landing-page"> 
+    <h1 class="landing-page__title">Welcome to the Expense Tracking System</h1> 
+     
+    <p class="landing-page__paragraph"> 
+      The Expense Tracking System is built using the MEAN stack, which includes 
+      MongoDB, Express.js, Angular, and Node.js. This stack provides a robust and 
+      scalable solution for building modern web applications. 
+    </p> 
+
+    <p class="landing-page__paragraph"> 
+      The Expense Tracking System (ETS) is an application where users can manage 
+      their own personal finances. Users are able to use this application to their 
+      liking from keeping track of their daily expenses to categorizing and 
+      analyzing their spending habits.
+    </p> 
+
+    <p class="landing-page__paragraph"> 
+      The purpose we aim with this application is to let the user be in charge. 
+      We are allowing the users to use this application as a way so they can have 
+      a tracker of their spending and we want the users to feel like they have 
+      control of that. Letting users have the ability to create, modify, see, and 
+      delete their expenses will give them that as well as letting them organize 
+      them into categories that they want. 
+    </p> 
+  </div>
   `,
-  styles: ``
+  styles: `
+  .landing-page { 
+max-width: 80%; 
+margin: 0 auto; 
+padding: 20px; 
+} 
+.landing-page__title { 
+color: #563d7c; /* Bootstrap's purple color */ 
+} 
+.landing-page__paragraph { 
+font-size: 1.2em; 
+line-height: 1.5; 
+margin-bottom: 20px; 
+}`
 })
 export class HomeComponent {
   serverMessage: string;

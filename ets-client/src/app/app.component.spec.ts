@@ -1,10 +1,16 @@
+// Author: Angelica Gutierrez
+// File Name: app.component.spec.ts
+// Date: 15 February 2025
+// Description: Tests for home component
+
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { RouterTestingModule } from '@angular/router/testing'; 
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent],
+      imports: [AppComponent, RouterTestingModule],
     }).compileComponents();
   });
 
@@ -24,6 +30,6 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Welcome to the MEAN Stack Starter Project');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Expense Tracking System');
   });
 });
