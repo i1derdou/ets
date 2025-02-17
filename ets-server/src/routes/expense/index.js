@@ -41,4 +41,21 @@ router.post('/', async (req, res, next) => {
     }
 });
 
+router.get('/list', async (req, res, next) => {
+    try {
+        // Fetch all expenses from the database
+        const expenses = await Expense.find().lean();
+
+        // Send retrieved expenses as response
+        res.send({
+            message: 'Expenses retrieved successfully.',
+            data: expenses
+        });
+    } catch (err) {
+        // Expense is not created correctly, send message
+        console.error(`Error while retrieving expenses: ${err}`);
+        next(err);
+    }
+});
+
 module.exports = router;

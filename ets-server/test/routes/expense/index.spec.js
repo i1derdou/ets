@@ -1,18 +1,13 @@
-// Authors: David Clemens, Hayat Soma, Angelica Gutierrez
-// Date: 10 February 2025
-// File Name: index.spec.js
-// Description: Testing routes
-
 const request = require('supertest');
 const app = require('../../../src/app');
 const { Expense } = require('../../../src/models/expense');
 
 jest.mock('../../../src/models/expense'); // Mocking the Expense model
 
-// Test API to create an expense
+// Test API for Expense Routes
 describe('Expense API', () => {
     describe('POST /api/expense', () => {
-         // Unit test 1: should create an expense successfully.
+        // Unit test 1: should create an expense successfully.
         it('should create an expense successfully', async () => {
             Expense.prototype.save.mockResolvedValue({ expenseId: '67ad37aefc7f403e6955c700' });
 
@@ -41,7 +36,7 @@ describe('Expense API', () => {
             });
 
             expect(response.status).toBe(400);
-            expect(response.body.message).toBe('data/description must NOT have more than 25 characters')
+            expect(response.body.message).toBe('data/description must NOT have more than 25 characters');
         });
 
         // Unit test 3: should return a validation error if input is incorrect.
@@ -50,13 +45,45 @@ describe('Expense API', () => {
                 expenseId: 3,
                 userId: 103, 
                 categoryId: 5,
-                amount: 'fifty', // amount must be a number, not string
+                amount: 'fifty', // amount must be a number, not a string
                 description: "Lunch",
                 date: new Date()
-            })
+            });
 
             expect(response.status).toBe(400);
-            expect(response.body.message).toBe('data/amount must be number')
+            expect(response.body.message).toBe('data/amount must be number');
+        });
+    });
+
+    // Unit test for GET /api/expense/list
+    describe('GET /api/expense/list', () => {
+        it('should retrieve expenses successfully', async () => {
+            const mockExpenses = [
+                {
+                    expenseId: 1,
+                    userId: 103,
+                    categoryId: 5,
+                    amount: 50.00,
+                    description: "Lunch",
+                    date: "2025-02-10T12:00:00.000Z"
+                },
+                {
+                    expenseId: 2,
+                    userId: 104,
+                    categoryId: 6,
+                    amount: 30.75,
+                    description: "Dinner",
+                    date: "2025-02-11T18:30:00.000Z"
+                }
+            ];
+
+            Expense.find.mockResolvedValue(mockExpenses); // Mocking database response
+
+            const response = await request(app).get('/api/expense/list');
+
+            expect(response.status).toBe(200);
+            expect(response.body.message).toBe('Expenses retrieved successfully.');
+            expect(response.body.expenses).toEqual(mockExpenses);
         });
     });
 });
