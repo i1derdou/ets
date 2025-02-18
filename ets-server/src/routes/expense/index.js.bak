@@ -16,7 +16,7 @@ const ajv = new Ajv();
 // validation to the addExpense endpoint
 const validateAddExpense = ajv.compile(addExpenseSchema); 
 
-// POST request to add a new expense document to the expense collection (Angelica)
+// POST request to add a new expense document to the expense collection
 router.post('/', async (req, res, next) => {
     try {
         const valid = validateAddExpense(req.body);

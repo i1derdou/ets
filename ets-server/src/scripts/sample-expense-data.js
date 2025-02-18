@@ -26,19 +26,19 @@ connectToDatabase(); // Call the function to connect to the database
 // Sample data for Expense 
 const sampleExpenses = [
     {
-        expenseId: 2,
-        userId: 104,
-        categoryId: 7,
+        expenseId: 1,
+        userId: 1000,
+        categoryId: 1,
         amount: 50.25,
         description: 'Breakfast',
         date: '2025-02-13T00:07:10.561Z'
     },
     {
-        expenseId: 3,
-        userId: 105,
-        categoryId: 8,
+        expenseId: 2,
+        userId: 100,
+        categoryId: 2,
         amount: 10.05,
-        description: 'Groceries',
+        description: 'Filled up at 7-Eleven',
         date: '2025-02-13T00:07:10.561Z'
     }
 ];

@@ -49,8 +49,9 @@ import { RouterLink } from '@angular/router';
                 <td class="expense-page__table-cell">{{ expense.description }}</td>
                 <td class="expense-page__table-cell">{{ expense.dateCreated }}</td>
                 <td class="expense-page__table-cell expense-page__table-cell--functions">
-                  <a routerLink="/expenses/{{expense.expenseId}}" class="expense-page__icon-link"><i class="fas fa-edit"></i></a>
-                  <a (click)="deleteExpense(expense.expenseId)" class="expense-page__icon-link"><i class="fas fa-trash-alt"></i></a>
+                  <a routerLink="/expenses/{{expense.expenseId}}" class="expense-page__icon-link"><!--<i class="fas fa-edit"></i>-->Edit</a>
+                  <a routerLink="/expenses/detail/{{expense.expenseId}}" class="expense-page__icon-link"><!--<i class="fas fa-edit"></i>-->View</a>
+                  <a (click)="deleteExpense(expense.expenseId)" class="expense-page__icon-link"><!---<i class="fas fa-trash-alt"></i>-->Delete</a>
                 </td>
               </tr>
             }
@@ -126,6 +127,6 @@ export class ExpenseListComponent {
   }
 
   deleteExpense(expenseId: number) {
-    alert(`Delete expense with ID: ${expenseId}`);
+    confirm(`Do you want to delete expense with ID: ${expenseId}?`);
   }
 }
