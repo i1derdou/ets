@@ -9,13 +9,34 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const mongoose = require('mongoose');
 const { notFoundHandler, errorHandler } = require('./error-handler');
 
 // Importing the index router
 const indexRouter = require('./routes/index');
+const expenseRouter = require('./routes/expense');
 
 // Variable declaration for the express app
 let app = express();
+
+// Mongoose connection 
+const connectionString =
+  'mongodb+srv://remoteUser:s3cret@cluster0.ykpqe.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const dbName = 'ets'; // Database name 
+
+// Function to connect to the database 
+async function connectToDatabase() {
+  try {
+    await mongoose.connect(connectionString, {
+      dbName: dbName,
+    });
+
+    console.log(`Connection to the '${dbName}' database was successful`);
+  } catch (err) {
+    console.error(`MongoDB connection error: ${err}`);
+  }
+}
+connectToDatabase(); // Call the function to connect to the database
 
 // CORS configuration
 app.use((req, res, next) => {
@@ -33,6 +54,7 @@ app.use(cookieParser());
 
 // Routing configuration
 app.use('/api', indexRouter);
+app.use('/api/expense', expenseRouter);
 
 // Use the error handling middleware
 app.use(notFoundHandler);
