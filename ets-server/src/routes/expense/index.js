@@ -76,7 +76,7 @@ router.get('/list', async (req, res, next) => {
 router.delete('/:expenseId', async (req, res, next) => {
     try {
       const { expenseId } = req.params;
-      const result = await Expense.deleteOne({ _id: expenseId });
+      const result = await Expense.deleteOne({ expenseId: expenseId });
   
       if (result.deletedCount === 0) {
         return res.status(404).json({ message: 'Expense not found' });
