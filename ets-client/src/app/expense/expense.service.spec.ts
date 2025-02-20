@@ -34,15 +34,15 @@ describe('ExpenseService', () => {
 
   // Adding a new expense
   it('should add a new expense', () => {
-    const newExpense: Expense = { 
-      _id: '67ad37aefc7f403e6955c701', 
-      expenseId: 3, 
-      userId: 103, 
-      categoryId: 7, 
-      amount: 30.00, 
-      description: "Breakfast", 
-      date: '2025-02-15T00:07:10.561Z', 
-      dateCreated: '2025-02-15T00:07:10.561Z' 
+    const newExpense: Expense = {
+      _id: '67ad37aefc7f403e6955c701',
+      expenseId: 3,
+      userId: 103,
+      categoryId: 7,
+      amount: 30.00,
+      description: "Breakfast",
+      date: '2025-02-15T00:07:10.561Z',
+      dateCreated: '2025-02-15T00:07:10.561Z'
     };
 
     // When adding expect expense to equal new expense
@@ -54,4 +54,24 @@ describe('ExpenseService', () => {
     expect(req.request.method).toBe('POST'); // POST request is made to the '/api/expenses' endpoint
     req.flush(newExpense); // newExpense data
   });
+
+  it('should retrieve a single expense by ID', () => {
+    const dummyExpense: any = { id: '67b4d39e9168e63a29d1c75a', expenseId: 1, categoryId: 1, userId: 1, amount: 50.25, description: 'Breakfast', date: "2025-02-13T00:07:10.561Z"};
+    service.getExpense('1').subscribe(expense => {
+      expect(expense).toEqual(dummyExpense);
+    });
+
+    const req = httpMock.expectOne(`${environment.apiBaseUrl}/api/expenses/1`); // Update the URL to match your API endpoint
+    expect(req.request.method).toBe('GET');
+    req.flush(dummyExpense);
+  });
+
+  it('should delete an existing expense via the API', () => {
+    service.deleteExpense(1).subscribe(response => {
+    expect(response).toBeNull();
+    });
+    const req = httpMock.expectOne(`${environment.apiBaseUrl}/api/expenses/1`);
+    expect(req.request.method).toBe('DELETE');
+    req.flush(null);
+    });
 });
