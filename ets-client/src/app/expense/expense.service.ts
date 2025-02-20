@@ -18,7 +18,7 @@ export class ExpenseService {
   constructor(private http: HttpClient) { }
 
   getExpenses() {
-    return this.http.get<Expense[]>(`${environment.apiBaseUrl}/api/expenses/list`);
+    return this.http.get<Expense[]>(`${environment.apiBaseUrl}/api/expense/list`);
   }
 
   // addExpense method to use the AddExpenseDTO object
