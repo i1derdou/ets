@@ -23,7 +23,7 @@ export const routes: Routes = [
     component: ExpenseAddComponent
   },
   {
-    path:'expenses/Id',
+    path:'expenses/:expenseId',
     component: ExpenseDetailsComponent
   }
 ];
