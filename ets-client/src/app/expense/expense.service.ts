@@ -26,4 +26,13 @@ export class ExpenseService {
     return this.http.post<Expense>(`${environment.apiBaseUrl}/api/expenses`, expense);
   }
 
+  // getExpense by Id
+  getExpense(expenseId: string)  {
+    return this.http.get<Expense>(`${environment.apiBaseUrl}/api/expenses/${expenseId}`);
+  }
+
+    // deleteExpense
+  deleteExpense(expenseId: number) {
+    return this.http.delete(`${environment.apiBaseUrl}/api/expenses/${expenseId}`);
+  }
 }
