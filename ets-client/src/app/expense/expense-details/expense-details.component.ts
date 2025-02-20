@@ -15,6 +15,10 @@ import { Expense } from '../expense';
       <div class="expense-details-page__card">
         <form [formGroup]="expenseForm" class="expense-details-page__form">
           <div class="expense-details-page__form-group">
+            <label for="userId" class="expense-details-page__form-label">User ID</label>
+            <input type="number" id="userId" class="expense-details-page__form-control" formControlName="userId" readonly>
+          </div>
+          <div class="expense-details-page__form-group">
             <label for="description" class="expense-details-page__form-label">Description</label>
             <input type="text" id="description" class="expense-details-page__form-control" formControlName="description" readonly>
           </div>
@@ -26,10 +30,14 @@ import { Expense } from '../expense';
             <label for="amount" class="expense-details-page__form-label">Amount</label>
             <input type="number" id="amount" class="expense-details-page__form-control" formControlName="amount" readonly>
           </div>
+          <div class="expense-details-page__form-group">
+            <label for="date" class="expense-details-page__form-label">Date</label>
+            <input type="text" id="date" class="expense-details-page__form-control" formControlName="date" readonly>
+          </div>
         </form>
       </div>
       <br />
-      <a class="expense-details-page__link" routerLink="/expenses">Return</a>
+      <a class="expense-details-page__link" routerLink="/expenses">Return to Expenses</a>
     </div>
   `,
   styles: `
@@ -91,9 +99,11 @@ export class ExpenseDetailsComponent {
   expense: Expense;
 
   expenseForm: FormGroup = this.fb.group({
+    userId: [null, Validators.required],
     description: [null, Validators.required],
     categoryId: [null, Validators.required],
-    amount: [null, Validators.required]
+    amount: [null, Validators.required],
+    date: [null, Validators.required]
   });
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private expenseService: ExpenseService) {
@@ -109,9 +119,11 @@ export class ExpenseDetailsComponent {
       next: (expense: Expense) => {
         this.expense = expense;
         this.expenseForm.setValue({
+          userId: expense.userId,
           description: expense.description,
           categoryId: expense.categoryId,
-          amount: expense.amount
+          amount: expense.amount,
+          date: expense.date
         });
       }
     });
