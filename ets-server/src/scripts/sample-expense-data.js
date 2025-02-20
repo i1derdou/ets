@@ -35,7 +35,7 @@ const sampleExpenses = [
     },
     {
         expenseId: 2,
-        userId: 100,
+        userId: 1000,
         categoryId: 2,
         amount: 10.05,
         description: 'Filled up at 7-Eleven',

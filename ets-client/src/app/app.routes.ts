@@ -7,6 +7,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ExpenseListComponent } from './expense/expense-list/expense-list.component';
 import { ExpenseAddComponent } from './expense/expense-add/expense-add.component';
+import { ExpenseDetailsComponent } from './expense/expense-details/expense-details.component';
 
 export const routes: Routes = [
   {
@@ -20,5 +21,9 @@ export const routes: Routes = [
   {
     path: 'expenses/add',
     component: ExpenseAddComponent
+  },
+  {
+    path:'expenses/:expenseId',
+    component: ExpenseDetailsComponent
   }
 ];
