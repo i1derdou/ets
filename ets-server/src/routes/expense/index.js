@@ -91,7 +91,7 @@ router.delete('/:expenseId', async (req, res, next) => {
 
   router.get('/:expenseId', async (req, res, next) => { 
     try { 
-      const expense = await Expense.findOne({ _id: req.params.expenseId });
+      const expense = await Expense.findOne({ expenseId: req.params.expenseId });
   
       if (!expense) {
         return res.status(404).json({ message: 'Expense not found' });
