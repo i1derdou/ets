@@ -49,8 +49,8 @@ import { RouterLink } from '@angular/router';
                 <td class="expense-page__table-cell">{{ expense.description }}</td>
                 <td class="expense-page__table-cell">{{ expense.dateCreated }}</td>
                 <td class="expense-page__table-cell expense-page__table-cell--functions">
-                  <a routerLink="/expenses/{{expense.expenseId}}" class="expense-page__icon-link"><!--<i class="fas fa-edit"></i>-->Edit</a>
-                  <a routerLink="/expenses/detail/{{expense.expenseId}}" class="expense-page__icon-link"><!--<i class="fas fa-edit"></i>-->View</a>
+                  <a routerLink="/expenses/edit/{{expense.expenseId}}" class="expense-page__icon-link"><!--<i class="fas fa-edit"></i>-->Edit</a>
+                  <a routerLink="/expenses/{{expense.expenseId}}" class="expense-page__icon-link"><!--<i class="fas fa-edit"></i>-->View</a>
                   <a (click)="deleteExpense(expense.expenseId)" class="expense-page__icon-link"><!---<i class="fas fa-trash-alt"></i>-->Delete</a>
                 </td>
               </tr>
@@ -126,7 +126,23 @@ export class ExpenseListComponent {
     });
   }
 
+  //  deleteExpense(expenseId: number) {
+  //    confirm(`Do you want to delete expense with ID: ${expenseId}?`);
+  //  }
   deleteExpense(expenseId: number) {
-    confirm(`Do you want to delete expense with ID: ${expenseId}?`);
+    if (!confirm(`Do you want to delete expense with ID: ${expenseId}?`)) {
+      return;
+    }
+
+    this.expenseService.deleteExpense(expenseId).subscribe({
+      next: () => {
+        console.log(`Expense with ID ${expenseId} deleted successfully`);
+        this.expenses = this.expenses.filter(e => e.expenseId !== expenseId); // Remove the deleted expense from the list
+      },
+      error: (err: any) => {
+        console.error(`Error occurred while deleting expense with ID ${expenseId}: ${err}`);
+      }
+    });
   }
-}
+
+  }
