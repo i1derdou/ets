@@ -58,4 +58,50 @@ router.get('/list', async (req, res, next) => {
     }
 });
 
+//hayat week 1 find expense by Id
+// router.get('/:expenseId', async (req, res, next) => {
+//   try {
+//     const expense = await Expense.findOne({ expenseId: req.params.expenseId });
+//     if (!expense) {
+//       return res.status(404).send({ message: 'Expense not found' });
+//     }
+//     res.send(expense);
+//   } catch (err) {
+//     console.error('Database error:', err.message);
+//     next(err);
+//   }
+// });
+
+  // hayat week 2 delete expense by Id
+router.delete('/:expenseId', async (req, res, next) => {
+    try {
+      const { expenseId } = req.params;
+      const result = await Expense.deleteOne({ _id: expenseId });
+  
+      if (result.deletedCount === 0) {
+        return res.status(404).json({ message: 'Expense not found' });
+      }
+  
+      res.status(200).json({ message: 'Expense deleted successfully', expenseId });
+    } catch (err) {
+      console.error(`Error while deleting expense: ${err}`);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+  router.get('/:expenseId', async (req, res, next) => { 
+    try { 
+      const expense = await Expense.findOne({ _id: req.params.expenseId });
+  
+      if (!expense) {
+        return res.status(404).json({ message: 'Expense not found' });
+      }
+  
+      res.status(200).json(expense);
+    } catch (err) { 
+      console.error(`Error while getting expense: ${err}`); 
+      res.status(500).json({ message: 'Internal server error' });
+    } 
+  });
+  
 module.exports = router;
