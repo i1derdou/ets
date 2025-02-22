@@ -19,6 +19,21 @@ const addExpenseSchema = {
     additionalProperties: false
 };
 
+// New schema for updating Expense documents  
+const updateExpenseSchema = {
+    type: 'object',
+    properties: {
+        userId: { type: 'number' },
+        description: { type: 'string', maxLength: 25 },
+        categoryId: { type: 'number' },
+        amount: { type: 'number' },
+        date: { type: 'string', pattern: '^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)?$' }
+    },
+    required: ['userId', 'description', 'categoryId', 'amount', 'date'],
+    additionalProperties: false
+};
+
 module.exports = {
-    addExpenseSchema
+    addExpenseSchema,
+    updateExpenseSchema
 };

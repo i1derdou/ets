@@ -15,3 +15,4 @@ export interface Expense {
 }
 
 export type AddExpenseDTO = Omit<Expense, '_id' | 'dateModified'>; //  add a new DTO object for new expense objects
+export type UpdateExpenseDTO = Omit<Expense, '_id' | 'expenseId' | 'dateCreated' |'dateModified'> //  add a new DTO object for updated expense objects
