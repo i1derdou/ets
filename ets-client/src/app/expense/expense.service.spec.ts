@@ -8,7 +8,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { ExpenseService } from './expense.service';
 import { Expense } from './expense';
 import { environment } from '../../environments/environment';
-
+import { UpdateExpenseDTO } from './expense';
 
 describe('ExpenseService', () => {
   let service: ExpenseService;
@@ -56,7 +56,7 @@ describe('ExpenseService', () => {
   });
 
   it('should retrieve a single expense by ID', () => {
-    const dummyExpense: any = { id: '67b4d39e9168e63a29d1c75a', expenseId: 1, categoryId: 1, userId: 1, amount: 50.25, description: 'Breakfast', date: "2025-02-13T00:07:10.561Z"};
+    const dummyExpense: any = { id: '67b4d39e9168e63a29d1c75a', expenseId: 1, categoryId: 1, userId: 1, amount: 50.25, description: 'Breakfast', date: "2025-02-13T00:07:10.561Z" };
     service.getExpense('1').subscribe(expense => {
       expect(expense).toEqual(dummyExpense);
     });
@@ -68,10 +68,38 @@ describe('ExpenseService', () => {
 
   it('should delete an existing expense via the API', () => {
     service.deleteExpense(1).subscribe(response => {
-    expect(response).toBeNull();
+      expect(response).toBeNull();
     });
     const req = httpMock.expectOne(`${environment.apiBaseUrl}/api/expenses/1`);
     expect(req.request.method).toBe('DELETE');
     req.flush(null);
+  });
+
+  it('should update an existing expense', () => {
+    const updateExpenseDTO: UpdateExpenseDTO = { 
+      userId: 1000,
+      description: 'Updated Description',
+      categoryId: 1,
+      amount: 50.25,
+      date: '2025-02-13T00:07:10.561Z'
+    };
+    
+    const updatedExpense: Expense = {
+      _id: '1',
+      expenseId: 1000,
+      userId: 1000,
+      description: 'Updated Description',
+      categoryId: 1,
+      amount: 50.25,
+      date: '2025-02-13T00:07:10.561Z',
+      dateCreated: '2025-02-13T00:07:10.561Z'
+    };
+    service.updateExpense(updateExpenseDTO, 1).subscribe(expense => {
+      expect(expense).toEqual(updatedExpense);
     });
+
+    const req = httpMock.expectOne(`${environment.apiBaseUrl}/api/expenses/1`);
+    expect(req.request.method).toBe('PATCH');
+    req.flush(updatedExpense);
+  });
 });

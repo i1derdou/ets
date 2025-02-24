@@ -3,17 +3,24 @@ import { ExpenseService } from '../expense.service';
 import { Expense } from '../expense';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-expense-list',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, FormsModule],
   template: `
     <div class="expense-page">
       <h1 class="expense-page__title">Expense List</h1>
-      <button class="expense-page__button" routerLink="/expenses/add">Add Expense</button>
+      <div style="width:55%; float:left; text-align:left;">
+        <button class="expense-page__button" routerLink="/expenses/add">Add Expense</button>
+      </div>
 
-      @if (expenses && expenses.length > 0) {
+
+      @if (filteredExpenses.length > 0) {
+        <div style="width:40%; float:right; text-align:right; padding-right:20px;">
+          <input type="text" class="expense-page__search" placeholder="Search expenses..." [(ngModel)]="searchQuery" (input)="filterExpenses()" />
+        </div>
         <table class="expense-page__table">
           <thead class="expense-page__table-head">
             <tr class="expense-page__table-row">
@@ -40,18 +47,18 @@ import { RouterLink } from '@angular/router';
           </thead>
 
           <tbody class="expense-page__table-body">
-            @for (expense of expenses; track expense) {
+            @for (expense of filteredExpenses; track expense) {
               <tr class="expense-page__table-row">
                 <td class="expense-page__table-cell">{{ expense.expenseId }}</td>
                 <td class="expense-page__table-cell">{{ expense.userId }}</td>
-                <td class="expense-page__table-cell">{{ expense.description }}</td>
+                <td class="expense-page__table-cell">{{ expense.categoryId }}</td>
                 <td class="expense-page__table-cell">{{ expense.amount }}</td>
                 <td class="expense-page__table-cell">{{ expense.description }}</td>
                 <td class="expense-page__table-cell">{{ expense.dateCreated }}</td>
                 <td class="expense-page__table-cell expense-page__table-cell--functions">
-                  <a routerLink="/expenses/edit/{{expense.expenseId}}" class="expense-page__icon-link"><!--<i class="fas fa-edit"></i>-->Edit</a>
-                  <a routerLink="/expenses/{{expense.expenseId}}" class="expense-page__icon-link"><!--<i class="fas fa-edit"></i>-->View</a>
-                  <a (click)="deleteExpense(expense.expenseId)" class="expense-page__icon-link"><!---<i class="fas fa-trash-alt"></i>-->Delete</a>
+                  <a routerLink="/expenses/edit/{{expense.expenseId}}" class="expense-page__icon-link">Edit</a>
+                  <a routerLink="/expenses/{{expense.expenseId}}" class="expense-page__icon-link">View</a>
+                  <a (click)="deleteExpense(expense.expenseId)" class="expense-page__icon-link">Delete</a>
                 </td>
               </tr>
             }
@@ -74,10 +81,13 @@ import { RouterLink } from '@angular/router';
     .expense-page__no-expenses { text-align: center; color: #6c757d; }
     .expense-page__button { background-color: #563d7c; color: #fff; border: none; padding: 10px 20px; margin: 10px 2px; cursor: pointer; border-radius: 5px; transition: background-color 0.3s; }
     .expense-page__button:hover { background-color: #6c757d; }
+    .expense-page__search { width: 100%; padding: 8px; margin-bottom: 0px; border: 1px solid #ccc; border-radius: 5px; }
   `
 })
 export class ExpenseListComponent {
   expenses: Expense[] = [];
+  filteredExpenses: Expense[] = [];
+  searchQuery: string = '';
   errorMessage: string = '';
   sortColumn: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
@@ -87,8 +97,10 @@ export class ExpenseListComponent {
       next: (response: any) => {
         if (response && response.data) {
           this.expenses = response.data;
+          this.filteredExpenses = [...this.expenses]; // Initialize filtered list
         } else {
           this.expenses = [];
+          this.filteredExpenses = [];
         }
         console.log(`Expenses: ${JSON.stringify(this.expenses)}`);
       },
@@ -97,6 +109,14 @@ export class ExpenseListComponent {
         this.errorMessage = err.message;
       }
     });
+  }
+
+  filterExpenses() {
+    this.filteredExpenses = this.expenses.filter(expense =>
+      Object.values(expense).some(value =>
+        value.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
+      )
+    );
   }
 
   sortExpenses(column: string) {
@@ -112,8 +132,7 @@ export class ExpenseListComponent {
 
     this.sortColumn = column;
 
-    // Sorting logic
-    this.expenses.sort((a: any, b: any) => {
+    this.filteredExpenses.sort((a: any, b: any) => {
       const valueA = a[column];
       const valueB = b[column];
 
@@ -137,12 +156,12 @@ export class ExpenseListComponent {
     this.expenseService.deleteExpense(expenseId).subscribe({
       next: () => {
         console.log(`Expense with ID ${expenseId} deleted successfully`);
-        this.expenses = this.expenses.filter(e => e.expenseId !== expenseId); // Remove the deleted expense from the list
+        this.expenses = this.expenses.filter(e => e.expenseId !== expenseId);
+        this.filterExpenses(); // Reapply filter after deletion
       },
       error: (err: any) => {
         console.error(`Error occurred while deleting expense with ID ${expenseId}: ${err}`);
       }
     });
   }
-
-  }
+}
