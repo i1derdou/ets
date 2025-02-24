@@ -21,6 +21,11 @@ export class ExpenseService {
     return this.http.get<Expense[]>(`${environment.apiBaseUrl}/api/expenses/list`);
   }
 
+  searchExpenses(query: string) {
+    return this.http.get(`/api/expenses/list?q=${query}`);
+  }
+
+
   // addExpense method to use the AddExpenseDTO object
   addExpense(expense: AddExpenseDTO) {
     return this.http.post<Expense>(`${environment.apiBaseUrl}/api/expenses`, expense);

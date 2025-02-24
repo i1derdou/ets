@@ -7,6 +7,8 @@ import { ExpenseService } from '../expense.service';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+import { Expense } from '../expense';
+
 describe('ExpenseDetailsComponent', () => {
   let component: ExpenseDetailsComponent;
   let fixture: ComponentFixture<ExpenseDetailsComponent>;
@@ -40,5 +42,27 @@ describe('ExpenseDetailsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  const mockExpense: Expense = {
+    _id: '1',
+    expenseId: 1,
+    userId: 1,
+    categoryId: 1,
+    amount: 100,
+    description: 'Groceries',
+    date: '2023-01-01',
+    dateCreated: '2023-01-01'
+  };
+  it('should navigate to /expenses if expenseId is not provided', () => {
+    const navigateSpy = spyOn(router, 'navigate');
+    activatedRoute.snapshot.paramMap.get = () => null;
+
+   
+    fixture = TestBed.createComponent(ExpenseDetailsComponent);
+    component = fixture.componentInstance;
+
+    // Ensure the navigation was called
+    expect(navigateSpy).toHaveBeenCalledWith(['/expenses']);
   });
 });
