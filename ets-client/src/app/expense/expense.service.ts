@@ -7,7 +7,7 @@ import { Expense } from './expense';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { AddExpenseDTO } from './expense'; // importing AddExpenseDTO
+import { AddExpenseDTO, UpdateExpenseDTO } from './expense'; // importing AddExpenseDTO
 
 @Injectable({
   providedIn: 'root'
@@ -27,12 +27,18 @@ export class ExpenseService {
   }
 
   // getExpense by Id
-  getExpense(expenseId: string)  {
+  getExpense(expenseId: string) {
     return this.http.get<Expense>(`${environment.apiBaseUrl}/api/expenses/${expenseId}`);
   }
 
-    // deleteExpense
+  // deleteExpense
   deleteExpense(expenseId: number) {
     return this.http.delete(`${environment.apiBaseUrl}/api/expenses/${expenseId}`);
+  }
+
+  // updateExpense
+  updateExpense(expense: UpdateExpenseDTO, expenseId: number) {
+    return this.http.patch<Expense>(`${environment.apiBaseUrl}/api/expenses/${expenseId}`,
+      expense);
   }
 }
