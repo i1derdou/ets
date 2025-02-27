@@ -4,7 +4,7 @@
 // Description: Sample data to test
 
 const mongoose = require('mongoose');
-const { Expense } = require('../models/expense');
+const { category } = require('../models/category');
 
 // Connect to MongoDB 
 const connectionString =
@@ -23,42 +23,45 @@ async function connectToDatabase() {
 
 connectToDatabase(); // Call the function to connect to the database 
 
-// Sample data for Expense 
+// Sample data for category 
 const sampleCategories = [
     {
         userId: 1000,
         categoryId: 1,
-        amount: 100,
-        description: "Meals",
-        date: "2021-01-01T00:00:00.000Z"
+        name: "Food",
+        description: "Food and beverages",
+        dateCreated: "2021-01-01T00:00:00.000Z",
+        dateModified: "2021-01-01T00:00:00.000Z"
     },
     {
         userId: 1000,
         categoryId: 2,
-        amount: 100,
-        description: "Fuel",
-        date: "2021-01-01T00:00:00.000Z"
+        name: "Fuel",
+        description: "Fuel charges",
+        dateCreated: "2021-01-01T00:00:00.000Z",
+        dateModified: "2021-01-01T00:00:00.000Z"
     },
     {
         userId: 1000,
         categoryId: 3,
-        amount: 100,
-        description: "Hotel",
-        date: "2021-01-01T00:00:00.000Z"
+        name: "Room",
+        description: "Overnight stays",
+        dateCreated: "2021-01-01T00:00:00.000Z",
+        dateModified: "2021-01-01T00:00:00.000Z"
     }
 ];
 // Function to create sample data 
 async function createSampleData() {
     try {
         // Clear existing data 
-        await Expense.deleteMany({});
-        // Insert sample expenses and store their IDs 
-        const expenseIdMap = {};
-        for (const expenseData of sampleCategories) {
-            const expense = new Expense(expenseData);
-            await expense.save();
-            expenseIdMap[expense.name] = expense.expenseId;
-            console.log('Sample expense created:', expense);
+        await Category.deleteMany({});
+        // Insert sample categories and store their IDs 
+        const categoryIdMap = {};
+        for (const categoryData of sampleCategories) {
+            const category = new category(categoryData);
+            await category.save();
+            categoryIdMap[category.name] = category.categoryId;
+            console.log('Sample category created:', category);
         }
         // Close the connection 
         mongoose.connection.close();
