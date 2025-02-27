@@ -9,6 +9,7 @@ import { ExpenseListComponent } from './expense/expense-list/expense-list.compon
 import { ExpenseAddComponent } from './expense/expense-add/expense-add.component';
 import { ExpenseDetailsComponent } from './expense/expense-details/expense-details.component';
 import { ExpenseEditComponent } from './expense/expense-edit/expense-edit.component';
+import { CategoryListComponent } from './category/category-list/category-list.component';
 
 export const routes: Routes = [
   {
@@ -30,5 +31,21 @@ export const routes: Routes = [
   {
     path: 'expenses/edit/:expenseId',
     component: ExpenseEditComponent
+  },
+  {
+    path: 'categories',
+    component: CategoryListComponent
   }
+  // ,{
+  //   path: 'expenses/add',
+  //   component: ExpenseAddComponent
+  // },
+  // {
+  //   path:'expenses/:expenseId',
+  //   component: ExpenseDetailsComponent
+  // },
+  // {
+  //   path: 'expenses/edit/:expenseId',
+  //   component: ExpenseEditComponent
+  // }
 ];
