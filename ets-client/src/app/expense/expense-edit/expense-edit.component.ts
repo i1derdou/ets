@@ -16,40 +16,40 @@ import { Expense, UpdateExpenseDTO } from '../expense';
   imports: [ReactiveFormsModule, CommonModule, RouterLink],
   template: ` 
     <div class="expense-edit-page">
-        <h1 class="expense-edit-page__title">Edit Expense</h1>
-        <div class="expense-edit-page__card">
+      <h1 class="expense-edit-page__title">Edit Expense</h1>
+      <div class="expense-edit-page__card">
     
-            <form [formGroup]="expenseForm" class="expense-edit-page__form">
-                <div class="expense-edit-page__form-group">
-                    <label for="userId" class="expense-edit-page__form-label">User ID</label>
-                    <input type="number" id="userId" class="expense-edit-page__form-control" formControlName="userId">
-                </div>
+        <form [formGroup]="expenseForm" class="expense-edit-page__form">
+          <div class="expense-edit-page__form-group">
+            <label for="userId" class="expense-edit-page__form-label">User ID</label>
+            <input type="number" id="userId" class="expense-edit-page__form-control" formControlName="userId">
+          </div>
           
-                <div class="expense-edit-page__form-group">
-                    <label for="description" class="expense-edit-page__form-label">Description</label>
-                    <input type="text" id="description" class="expense-edit-page__form-control" formControlName="description">
-                </div>
+          <div class="expense-edit-page__form-group">
+            <label for="description" class="expense-edit-page__form-label">Description</label>
+            <input type="text" id="description" class="expense-edit-page__form-control" formControlName="description">
+          </div>
           
-                <div class="expense-edit-page__form-group">
-                    <label for="categoryId" class="expense-edit-page__form-label">Category ID</label>
-                    <input type="number" id="categoryId" class="expense-edit-page__form-control" formControlName="categoryId">
-                </div>
+          <div class="expense-edit-page__form-group">
+            <label for="categoryId" class="expense-edit-page__form-label">Category ID</label>
+            <input type="number" id="categoryId" class="expense-edit-page__form-control" formControlName="categoryId">
+          </div>
           
-                <div class="expense-edit-page__form-group">
-                    <label for="amount" class="expense-edit-page__form-label">Amount</label>
-                    <input type="number" id="amount" class="expense-edit-page__form-control" formControlName="amount">
-                </div>
+          <div class="expense-edit-page__form-group">
+            <label for="amount" class="expense-edit-page__form-label">Amount</label>
+            <input type="number" id="amount" class="expense-edit-page__form-control" formControlName="amount">
+          </div>
           
-                <div class="expense-edit-page__form-group">
-                    <label for="date" class="expense-edit-page__form-label">Date</label>
-                    <input type="text" id="date" class="expense-edit-page__form-control" formControlName="date">
-                </div>
+          <div class="expense-edit-page__form-group">
+            <label for="date" class="expense-edit-page__form-label">Date</label>
+            <input type="text" id="date" class="expense-edit-page__form-control" formControlName="date">
+          </div>
 
-                <button type="submit" class="expense-edit-page__btn" (click)="onSubmit()">Update Expense</button> 
-            </form>
-        </div>
-        <br />
-        <a class="expense-edit-page__link" routerLink="/expenses">Return</a>
+          <button type="submit" class="expense-edit-page__btn" (click)="onSubmit()">Update Expense</button> 
+        </form>
+      </div>
+      <br />
+      <a class="expense-edit-page__link" routerLink="/expenses">Return</a>
     </div>
   `,
   styles: `
@@ -179,6 +179,7 @@ export class ExpenseEditComponent {
   onSubmit() {
     if (this.expenseForm.valid) {
       // setting values to UpdateExpenseDTO
+      // l_expense = local expense variable
       let l_expense: UpdateExpenseDTO = {
         description: this.expenseForm.controls['description'].value,
         userId: this.expenseForm.controls['userId'].value,
@@ -188,7 +189,7 @@ export class ExpenseEditComponent {
       };
 
       console.log('Updating Expense', l_expense);
-      
+
       // calling to update expense
       this.expenseService.updateExpense(l_expense, +this.expenseId).subscribe({
         // successful update expense
