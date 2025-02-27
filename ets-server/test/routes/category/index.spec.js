@@ -8,16 +8,16 @@ const request = require('supertest');
 const app = require('../../../src/app');
 const { Category } = require('../../../src/models/category');
 
-jest.mock('../../../src/models/category'); // Mocking the Category model
+jest.mock('../../../src/models/categories'); // Mocking the Category model
 
 // API Tests for Category Routes
 describe('Category API Tests', ()=> {
     describe('POST /api/category', () => {
         // Unit Test 1: should create a category successfully
         it('should create a category successfully', async () => {
-            Category.prototype.save.mockResolvedValue({categoryId: ''});
+            Category.prototype.save.mockResolvedValue({categoryId: '67bf954905ab42ddef70a8ad'});
 
-            const response = await request (app).post('/api/category').send({
+            const response = await request (app).post('/api/category/1').send({
                 categoryId:4,
                 userId:1000,
                 name:'Test Category',
@@ -32,7 +32,7 @@ describe('Category API Tests', ()=> {
 
         // Unit Test 2: should return validation error if description is longer
         it('should return validation error if description is longer', async() =>{
-            const response = await request(app).post('/api/category').send({
+            const response = await request(app).post('/api/category/1').send({
                 categoryId:4,
                 userId:1000,
                 name:'Test Category',
@@ -47,7 +47,7 @@ describe('Category API Tests', ()=> {
 
         // Unit Test 3: should return validation error if name is not unique
         it('should return validation error is name is not unique', async() => {
-            const response = await request(app).post('/api/category').send({
+            const response = await request(app).post('/api/category/1').send({
                 categoryId:4,
                 userId:1000,
                 name:'Meals',
