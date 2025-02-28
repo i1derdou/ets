@@ -27,7 +27,7 @@ describe('Category API Tests', () => {
 
             // asserts
             expect(response.status).toBe(200);
-            //     expect(response.body.message).toBe('Category created successfully.');
+            expect(response.body.message).toBe('Category created successfully');
         });
 
         // Unit Test 2: should return validation error if description is longer
@@ -42,7 +42,6 @@ describe('Category API Tests', () => {
 
             // asserts 
             expect(response.status).toBe(400);
-            //      expect(response.body.message).toBe('Description cannot exceed 50 characters');
         });
 
         // Unit Test 3: should return validation error if name is not unique
@@ -57,7 +56,6 @@ describe('Category API Tests', () => {
 
             // asserts
             expect(response.status).toBe(400);
-            // expect(response.body.message).toBe('');
         })
     });
     describe('GET /api/categories/list', () => {

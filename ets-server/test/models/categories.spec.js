@@ -77,8 +77,8 @@ describe('Category Model Test', () => {
         expect(err.errors['userId']).toBeDefined();
     });
 
-    // Unit Test 3: should fail to create a category with a description longer than 25 characters
-    it('should fail to create an category with a description longer than 25 characters', async () => {
+    // Unit Test 3: should fail to create a category with a description longer than 50 characters
+    it('should fail to create an category with a description longer than 50 characters', async () => {
         const categoryData = {
             categoryId: 2,
             userId: '', // userId missing
