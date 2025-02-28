@@ -20,6 +20,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
         <ul class="navbar__list"> 
           <li class="navbar__item"><a class="navbar__link" routerLink="/"><i class="fas fa home"></i> Home</a></li> 
           <li class="navbar__item"><a class="navbar__link" routerLink="/expenses"><i class="fas fa-seedling"></i> Expenses</a></li> 
+          <li class="navbar__item"><a class="navbar__link" routerLink="/categories"><i class="fas fa-seedling"></i>Categories</a></li>
         </ul> 
       </nav> 
 
