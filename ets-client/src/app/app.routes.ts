@@ -11,6 +11,7 @@ import { ExpenseDetailsComponent } from './expense/expense-details/expense-detai
 import { ExpenseEditComponent } from './expense/expense-edit/expense-edit.component';
 import { CategoryListComponent } from './category/category-list/category-list.component';
 import { CategoryAddComponent } from './category/category-add/category-add.component';
+import { CategoryViewComponent } from './category/category-view/category-view.component';
 
 export const routes: Routes = [
   {
@@ -41,4 +42,7 @@ export const routes: Routes = [
     path: 'categories/add',
     component: CategoryAddComponent
   },
+  {
+    path: 'categories/:categoryId',
+    component: CategoryViewComponent
 ];
