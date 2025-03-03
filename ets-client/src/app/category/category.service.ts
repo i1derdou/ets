@@ -17,7 +17,7 @@ export class CategoryService {
 
   constructor(private http: HttpClient) { }
 
-  getExpenses() {
+  getCategories() {
     return this.http.get<Category[]>(`${environment.apiBaseUrl}/api/categories/list`);
   }
 

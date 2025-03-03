@@ -38,7 +38,7 @@ const addCategorySchema = {
     properties: {
         categoryId: { type: 'number' },
         userId: { type: 'number' },
-        name: { type: 'String' },
+        name: { type: 'string' },
         description: { type: 'string', maxLength: 25 },
         dateCreated: { type: 'string', pattern: '^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)?$' }
     },

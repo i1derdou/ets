@@ -56,7 +56,7 @@ app.use(cookieParser());
 // Routing configuration
 app.use('/api', indexRouter);
 app.use('/api/expenses', expenseRouter);
-app.use('/api/category', categoryRouter);
+app.use('/api/categories', categoryRouter);
 
 // Use the error handling middleware
 app.use(notFoundHandler);

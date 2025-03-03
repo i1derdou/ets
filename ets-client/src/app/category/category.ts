@@ -4,7 +4,6 @@
 // Description: Category interfaces
 
 export interface Category {
-    _id: string,
     categoryId: number,
     userId: number,
     name: string,
