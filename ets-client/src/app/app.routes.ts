@@ -45,4 +45,5 @@ export const routes: Routes = [
   {
     path: 'categories/:categoryId',
     component: CategoryViewComponent
+  },
 ];

@@ -76,14 +76,14 @@ describe('ExpenseService', () => {
   });
 
   it('should update an existing expense', () => {
-    const updateExpenseDTO: UpdateExpenseDTO = { 
+    const updateExpenseDTO: UpdateExpenseDTO = {
       userId: 1000,
       description: 'Updated Description',
       categoryId: 1,
       amount: 50.25,
       date: '2025-02-13T00:07:10.561Z'
     };
-    
+
     const updatedExpense: Expense = {
       _id: '1',
       expenseId: 1000,
