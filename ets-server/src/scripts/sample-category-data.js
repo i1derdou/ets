@@ -4,7 +4,7 @@
 // Description: Sample data to test
 
 const mongoose = require('mongoose');
-const { category } = require('../models/category');
+const { Category } = require('../models/category');
 
 // Connect to MongoDB 
 const connectionString =
@@ -58,7 +58,7 @@ async function createSampleData() {
         // Insert sample categories and store their IDs 
         const categoryIdMap = {};
         for (const categoryData of sampleCategories) {
-            const category = new category(categoryData);
+            const category = new Category(categoryData);
             await category.save();
             categoryIdMap[category.name] = category.categoryId;
             console.log('Sample category created:', category);
