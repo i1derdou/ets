@@ -116,7 +116,7 @@ describe('CategoryService', () => {
     expect(req.request.method).toBe('DELETE');
     req.flush(null);
   });
-*/
+
   it('should update an existing category', () => {
     const updateCategory: UpdateCategoryDTO = {
       userId: 1000,
