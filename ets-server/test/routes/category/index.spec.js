@@ -173,4 +173,41 @@ describe('Category API Tests', () => {
             expect(response.body.message).toContain('data/categoryId must be number');
         });
     });
+
+    describe('DELETE /api/categories/:categoryId', () => {
+        //  **Test 1: Successfully delete an expense**
+        it('should delete a category successfully', async () => {
+          Category.deleteOne.mockResolvedValue({ deletedCount: 1 });
+        
+          const response = await request(app).delete('/api/categories/1');
+        
+          expect(response.status).toBe(200);
+          expect(response.body.message).toBe('Category deleted successfully');
+          expect(response.body.categoryId).toBe('1');
+        });
+        
+        //  **Test 2: Handle non-existent expense**
+        it('should return a 404 if the category does not exist', async () => {
+          Category.deleteOne.mockResolvedValue({ deletedCount: 0 });
+        
+          const response = await request(app).delete('/api/categories/999');
+        
+          expect(response.status).toBe(404);
+          expect(response.body.message).toBe('Category not found');
+        });
+        
+        it('should return a 500 status on error', async () => {
+          jest.spyOn(console, 'error').mockImplementation(() => {}); // Suppress console error logs
+        
+          Category.deleteOne.mockRejectedValue(new Error('Database error'));
+        
+          const response = await request(app).delete('/api/categories/1');
+        
+          expect(response.status).toBe(500);
+          expect(response.body.message).toBe('Internal server error');
+        
+          console.error.mockRestore(); // Restore console error after test
+        });
+        
+        });
 })
