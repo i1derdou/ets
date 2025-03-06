@@ -10,11 +10,12 @@ const Ajv = require('ajv');
 const createError = require('http-errors');
 const router = express.Router();
 const { Category } = require('../../models/category');
-const { addCategorySchema } = require('../../schemas');
+const { addCategorySchema, updateCategorySchema } = require('../../schemas');
 
 const ajv = new Ajv();
 // validation to the addCategory endpoint
 const validateAddCategory = ajv.compile(addCategorySchema);
+const validateUpdateCategory = ajv.compile(updateCategorySchema);
 
 // POST request to add a new category document to the category collection (Angelica)
 // handle requests to create a new category for a specific expense
@@ -71,17 +72,43 @@ router.get('/list', async (req, res, next) => {
 
 router.get('/:categoryId', async (req, res, next) => {
     try {
-      const category = await Category.findOne({ categoryId: req.params.categoryId });
-  
-      if (!category) {
-        return res.status(404).json({ message: 'Category not found' });
-      }
-  
-      res.status(200).json(category);
+        const category = await Category.findOne({ categoryId: req.params.categoryId });
+
+        if (!category) {
+            return res.status(404).json({ message: 'Category not found' });
+        }
+
+        res.status(200).json(category);
     } catch (err) {
-      console.error(`Error while getting category: ${err}`);
-      res.status(500).json({ message: 'Internal server error' });
+        console.error(`Error while getting category: ${err}`);
+        res.status(500).json({ message: 'Internal server error' });
     }
-  });
+});
+
+
+// PATCH route to update category
+router.patch('/edit/:categoryId', async (req, res, next) => {
+    try {
+        const category = await Category.findOne({ _id: req.params.categoryId }); // finding category using categoryId
+
+        const valid = validateUpdateCategory(req.body); // validate request body to contain valid data for updating
+        
+        // If not valid, 
+        if (!valid) {
+            return next(createError(400, ajv.errorsText(validateUpdateCategory.errors))); // create 400 error
+        }
+
+        category.set(req.body); // update category by new data
+        await category.save(); // saving updating category 
+
+        res.send({
+            message: 'Category updated successfully', // sending success message 
+            id: category._id // updated id category 
+        });
+    } catch (err) {
+        console.error(`Error while updating category: ${err}`); // error if not updated correctly 
+        next(err);
+    }
+});
 
 module.exports = router;
