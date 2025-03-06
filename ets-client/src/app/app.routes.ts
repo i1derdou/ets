@@ -12,6 +12,7 @@ import { ExpenseEditComponent } from './expense/expense-edit/expense-edit.compon
 import { CategoryListComponent } from './category/category-list/category-list.component';
 import { CategoryAddComponent } from './category/category-add/category-add.component';
 import { CategoryViewComponent } from './category/category-view/category-view.component';
+import { CategoryEditComponent } from './category/category-edit/category-edit.component';
 
 export const routes: Routes = [
   {
@@ -46,4 +47,8 @@ export const routes: Routes = [
     path: 'categories/:categoryId',
     component: CategoryViewComponent
   },
+  {
+    path: 'categories/edit/:categoryId',
+    component: CategoryEditComponent
+  }
 ];

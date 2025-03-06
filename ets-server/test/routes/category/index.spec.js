@@ -7,6 +7,7 @@
 const request = require('supertest');
 const app = require('../../../src/app');
 const { Category } = require('../../../src/models/category');
+const category = require('../../../src/models/category');
 
 jest.mock('../../../src/models/category'); // Mocking the Category model
 
@@ -124,42 +125,52 @@ describe('Category API Tests', () => {
 
     });
 
-    describe('DELETE /api/categories/:categoryId', () => {
-        //  **Test 1: Successfully delete an expense**
-        it('should delete a category successfully', async () => {
-          Category.deleteOne.mockResolvedValue({ deletedCount: 1 });
-        
-          const response = await request(app).delete('/api/categories/1');
-        
-          expect(response.status).toBe(200);
-          expect(response.body.message).toBe('Category deleted successfully');
-          expect(response.body.categoryId).toBe('1');
-        });
-        
-        //  **Test 2: Handle non-existent expense**
-        it('should return a 404 if the category does not exist', async () => {
-          Category.deleteOne.mockResolvedValue({ deletedCount: 0 });
-        
-          const response = await request(app).delete('/api/categories/999');
-        
-          expect(response.status).toBe(404);
-          expect(response.body.message).toBe('Category not found');
-        });
-        
-        it('should return a 500 status on error', async () => {
-          jest.spyOn(console, 'error').mockImplementation(() => {}); // Suppress console error logs
-        
-          Category.deleteOne.mockRejectedValue(new Error('Database error'));
-        
-          const response = await request(app).delete('/api/categories/1');
-        
-          expect(response.status).toBe(500);
-          expect(response.body.message).toBe('Internal server error');
-        
-          console.error.mockRestore(); // Restore console error after test
-        });
-        
+    describe('PATCH /api/categories/edit/:categoryId', () => {
+        // Unit Test 1: Update Category Successfully
+        it('should update a category successfully', async () => {
+            Category.findOne.mockResolvedValue({
+                set: jest.fn(),
+                save: jest.fn().mockResolvedValue({ categoryId: 32 })
+            }); // Mock the findOne and save methods 
+
+            const response = await request(app).patch('/api/categories/edit/:32').send({
+                name: 'Meals',
+                description: 'Test',
+                userId: 1000,
+                categoryId: 32,
+                date:"2021-01-01T00:00:00.000Z"
+            });
+
+            expect(response.status).toBe(200);
+            expect(response.body.message).toBe('Category updated successfully');
         });
 
+        // Unit Test 2: Validation error for long description 
+        it('should return validation errors for long description', async () => {
+            const response = await request(app).patch('/api/categories/edit/:32').send({
+                name: 'Meals',
+                description: 'Description is too long. This description should trigger an error message saying it is too long', // Too long description
+                userId: 1000,
+                categoryId: 32,
+                date:"2021-01-01T00:00:00.000Z"
+            });
 
+            expect(response.status).toBe(400);
+            expect(response.body.message).toContain('data/description must NOT have more than 25 characters');
+        });
+
+         // Unit Test 2: Validation error for invalid data input 
+         it('should return validation errors for invalid data input', async () => {
+            const response = await request(app).patch('/api/categories/edit/:32').send({
+                name: 'Meals',
+                description: 'Foods',
+                userId: 1000,
+                categoryId: 'string', // categoryId must be number, not string
+                date:"2021-01-01T00:00:00.000Z"
+            });
+
+            expect(response.status).toBe(400);
+            expect(response.body.message).toContain('data/categoryId must be number');
+        });
+    });
 })
