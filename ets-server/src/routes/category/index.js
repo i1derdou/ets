@@ -111,4 +111,20 @@ router.patch('/edit/:categoryId', async (req, res, next) => {
     }
 });
 
+router.delete('/:categoryId', async (req, res, next) => {
+    try {
+      const { categoryId } = req.params;
+      const result = await Category.deleteOne({ categoryId: categoryId });
+  
+      if (result.deletedCount === 0) {
+        return res.status(404).json({ message: 'Category not found' });
+      }
+  
+      res.status(200).json({ message: 'Category deleted successfully', categoryId });
+    } catch (err) {
+      console.error(`Error while deleting category: ${err}`);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 module.exports = router;

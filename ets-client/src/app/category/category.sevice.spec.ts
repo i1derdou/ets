@@ -107,7 +107,7 @@ describe('CategoryService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(dummyCategory);
   });
-
+*/
   it('should delete an existing catergory via the API', () => {
     service.deleteCategory(1).subscribe(response => {
       expect(response).toBeNull();
@@ -116,7 +116,6 @@ describe('CategoryService', () => {
     expect(req.request.method).toBe('DELETE');
     req.flush(null);
   });
-*/
   it('should update an existing category', () => {
     const updateCategory: UpdateCategoryDTO = {
       userId: 1000,
