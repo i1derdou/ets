@@ -46,12 +46,9 @@ export const routes: Routes = [
   {
     path: 'categories/:categoryId',
     component: CategoryViewComponent
-<<<<<<< Updated upstream
-=======
   },
   {
     path: 'categories/edit/:categoryId',
     component: CategoryEditComponent
   }
->>>>>>> Stashed changes
 ];
