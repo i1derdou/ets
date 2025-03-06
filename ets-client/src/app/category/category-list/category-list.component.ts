@@ -193,6 +193,18 @@ export class CategoryListComponent {
   }
 
   deleteCategory(categoryId: number) {
-    confirm(`Do you want to delete Category with ID: ${categoryId}?`);
+    if (!confirm(`Do you want to delete category with ID: ${categoryId}?`)) {
+      return;
+    }
+
+    this.categoryService.deleteCategory(categoryId).subscribe({
+      next: () => {
+        console.log(`Category with ID ${categoryId} deleted successfully`);
+        this.categories = this.categories.filter(c => c.categoryId !== categoryId);
+      },
+      error: (err: any) => {
+        console.error(`Error occurred while deleting category with ID ${categoryId}: ${err}`);
+      }
+    });
   }
 }
