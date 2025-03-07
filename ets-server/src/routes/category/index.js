@@ -15,7 +15,7 @@ const { addCategorySchema, updateCategorySchema } = require('../../schemas');
 const ajv = new Ajv();
 // validation to the addCategory endpoint
 const validateAddCategory = ajv.compile(addCategorySchema);
-const validateUpdateCategory = ajv.compile(updateCategorySchema);
+//const validateUpdateCategory = ajv.compile(updateCategorySchema);
 
 // POST request to add a new category document to the category collection (Angelica)
 // handle requests to create a new category for a specific expense
@@ -26,17 +26,17 @@ router.post('/', async (req, res, next) => {
         const valid = validateAddCategory(req.body);
 
         // If not valid, return 400 error code
-        if (!valid) {
-            return next(createError(400, ajv.errorsText(validateAddCategory.errors)));
-        }
+        // if (!valid) {
+        //     return next(createError(400, ajv.errorsText(validateAddCategory.errors)));
+        // }
 
         // defining payload data
-        const payload = {
-            ...req.body, // properties from request body
-            categoryId: Number(req.params.categoryId) // adds categoryId from URL parameters
-        }
+        // const payload = {
+        //     ...req.body, // properties from request body
+        //     categoryId: Number(req.params.categoryId) // adds categoryId from URL parameters
+        // }
 
-        const category = new Category(payload); // new category with payload data
+        const category = new Category(req.body); // new category with payload data
         await category.save(); // saving new category
 
         // If category is successful, send success message

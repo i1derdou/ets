@@ -24,9 +24,9 @@ router.post('/', async (req, res, next) => {
     const valid = validateAddExpense(req.body);
 
     // If not valid, create 400 error
-    if (!valid) {
-      return next(createError(400, ajv.errorsText(validateAddExpense.errors)));
-    }
+    // if (!valid) {
+    //   return next(createError(400, ajv.errorsText(validateAddExpense.errors)));
+    // }
 
     const newExpense = new Expense(req.body); // Creating new expense
     await newExpense.save(); // Saving new expense
@@ -100,9 +100,9 @@ router.patch('/:expenseId', async (req, res, next) => {
     // validating validateUpdateExpense
     const valid = validateUpdateExpense(req.body);
     // If not valid, throw 400
-    if (!valid) {
-      return next(createError(400, ajv.errorsText(validateUpdateExpense.errors)));
-    }
+    // if (!valid) {
+    //   return next(createError(400, ajv.errorsText(validateUpdateExpense.errors)));
+    // }
 
     // setting expense
     expense.set({
