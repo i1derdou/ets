@@ -37,10 +37,10 @@ import { ExpenseService } from '../../expense/expense.service';
           <textarea id="description" rows="10" class="category-add-page__form-control" formControlName="description"></textarea>
         </div>
 
-        <div class="category-add-page__form-group">
+        <!-- <div class="category-add-page__form-group">
           <label for="dateCreated" class="category-add-page__form-label">Date Created</label>
           <input type="datetime-local" id="dateCreated" class="category-add-page__formcontrol" formControlName="dateCreated">
-        </div>
+        </div> -->
 
         <button type="submit" class="category-add-page__btn" (click)="onSubmit()">Add Category</button>
       </form>
@@ -130,8 +130,8 @@ export class CategoryAddComponent {
     userId: [null, Validators.compose([Validators.required])],
     categoryId: [null, Validators.compose([Validators.required])],
     name: [null, Validators.compose([Validators.required])],
-    description: [null, Validators.compose([Validators.required, Validators.maxLength(25)])],
-    dateCreated: [null, Validators.required]
+    description: [null, Validators.compose([Validators.required, Validators.maxLength(25)])]//,
+    //dateCreated: [null, Validators.required]
   });
 
   constructor(private fb: FormBuilder, private router: Router, private categoryService: CategoryService) { }
@@ -140,14 +140,14 @@ export class CategoryAddComponent {
     console.log('Button clicked');
 
     if (this.categoryForm.valid) {
-      const dateCreated = new Date(this.categoryForm.controls['dateCreated'].value).toISOString();
+      //const dateCreated = new Date(this.categoryForm.controls['dateCreated'].value).toISOString();
 
       const newCategory: AddCategoryDTO = {
-        userId: this.categoryForm.controls['userId'].value,
-        categoryId: this.categoryForm.controls['categoryId'].value,
+        userId: Number(this.categoryForm.controls['userId'].value),
+        categoryId: Number(this.categoryForm.value.categoryId),
         description: this.categoryForm.controls['description'].value,
         name: this.categoryForm.controls['name'].value,
-        dateCreated: dateCreated
+        dateCreated: new Date().toISOString() //dateCreated
       };
 
       console.log('Creating Category', newCategory);
