@@ -19,7 +19,7 @@ const addExpenseSchema = {
     additionalProperties: false
 };
 
-// New schema for updating Expense documents  
+// New schema for updating Expense documents
 const updateExpenseSchema = {
     type: 'object',
     properties: {
@@ -46,7 +46,7 @@ const addCategorySchema = {
     additionalProperties: false
 };
 
-// New schema for updating Expense documents  
+// New schema for updating Expense documents
 const updateCategorySchema = {
     type: 'object',
     properties: {

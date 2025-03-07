@@ -46,7 +46,7 @@ import { FormsModule } from '@angular/forms';
               <td class="category-page__table-cell category-page__table-cell--functions">
                 <a routerLink="/categories/edit/{{category.categoryId}}" class="category-page__icon-link"><i class="fas fa-edit"></i>Edit</a>
                 <a routerLink="/categories/{{category.categoryId}}" class="expense-page__icon-link"><!--<i class="fas fa-edit"></i>-->View</a>
-                <a (click)="deleteCategory(category.categoryId)" class="category-page__icon-link"><i class="fas fa-trash-alt"></i>delete</a>
+                <a (click)="deleteCategory(category.categoryId)" class="category-page__icon-link"><i class="fas fa-trash-alt"></i>Delete</a>
               </td>
             </tr>
             }
@@ -201,10 +201,12 @@ export class CategoryListComponent {
       next: () => {
         console.log(`Category with ID ${categoryId} deleted successfully`);
         this.categories = this.categories.filter(c => c.categoryId !== categoryId);
+        this.filterCategories(); // Reapply filter after deletion
       },
       error: (err: any) => {
         console.error(`Error occurred while deleting category with ID ${categoryId}: ${err}`);
       }
     });
   }
+
 }

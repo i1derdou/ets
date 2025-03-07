@@ -18,14 +18,14 @@ const expenseRouter = require('./routes/expense');
 const categoryRouter = require('./routes/category');
 
 // Variable declaration for the express app
-let app = express();
+const app = express();
 
-// Mongoose connection 
+// Mongoose connection
 const connectionString =
   'mongodb+srv://remoteUser:s3cret@cluster0.ykpqe.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
-const dbName = 'ets'; // Database name 
+const dbName = 'ets'; // Database name
 
-// Function to connect to the database 
+// Function to connect to the database
 async function connectToDatabase() {
   try {
     await mongoose.connect(connectionString, {
@@ -42,7 +42,7 @@ connectToDatabase(); // Call the function to connect to the database
 // CORS configuration
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*'); // This allows all origins
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allowed request methods
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS'); // Allowed request methods
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); // Allowed headers
   next();
 });

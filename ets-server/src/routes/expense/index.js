@@ -93,9 +93,9 @@ router.get('/:expenseId', async (req, res, next) => {
 });
 
 // PATCH (update) route to update expense (Angelica)
-router.patch('/edit/:expenseId', async (req, res, next) => {
+router.patch('/:expenseId', async (req, res, next) => {
   try {
-    const expense = await Expense.findOne({ expenseId: req.params.expenseId }); // finding expense 
+    const expense = await Expense.findOne({ expenseId: req.params.expenseId }); // finding expense
 
     // validating validateUpdateExpense
     const valid = validateUpdateExpense(req.body);
