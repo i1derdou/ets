@@ -13,11 +13,11 @@ import { Category } from '../category';
     <div class="category-edit-page">
       <h1 class="category-edit-page__title">Edit Category</h1>
       <div class="category-edit-page__card">
-    
+
         <form [formGroup]="categoryForm" class="category-edit-page__form">
         <div class="category-edit-page__form-group">
             <label for="categoryId" class="category-edit-page__form-label">Category ID</label>
-            <input type="number" id="categoryId" class="category-edit-page__form-control" formControlName="categoryId">
+            <input type="number" id="categoryId" class="category-edit-page__form-control" formControlName="categoryId" readonly>
           </div>
 
           <div class="category-edit-page__form-group">
@@ -29,13 +29,13 @@ import { Category } from '../category';
             <label for="userId" class="category-edit-page__form-label">User ID</label>
             <input type="number" id="userId" class="category-edit-page__form-control" formControlName="userId">
           </div>
-          
+
           <div class="category-edit-page__form-group">
             <label for="description" class="category-edit-page__form-label">Description</label>
             <input type="text" id="description" class="category-edit-page__form-control" formControlName="description">
           </div>
 
-          <button type="submit" class="category-edit-page__btn" (click)="onSubmit()">Update category</button> 
+          <button type="submit" class="category-edit-page__btn" (click)="onSubmit()">Update category</button>
         </form>
       </div>
       <br />
@@ -84,21 +84,21 @@ import { Category } from '../category';
       border-radius: 4px;
       box-sizing: border-box;
     }
-    
-    .category-edit-page__btn { 
-      padding: 10px 15px; 
-      background-color: #563d7c; 
-      color: #fff; 
-      border: none; 
 
-      border-radius: 4px; 
-      cursor: pointer; 
-      align-self: flex-start; 
-    } 
- 
-    .category-edit-page__btn:hover { 
-      background-color: #452a63; 
-    } 
+    .category-edit-page__btn {
+      padding: 10px 15px;
+      background-color: #563d7c;
+      color: #fff;
+      border: none;
+
+      border-radius: 4px;
+      cursor: pointer;
+      align-self: flex-start;
+    }
+
+    .category-edit-page__btn:hover {
+      background-color: #452a63;
+    }
 
     .category-edit-page__link {
       color: #563d7c;
@@ -145,7 +145,7 @@ export class CategoryEditComponent {
           description: category.description,
           categoryId: category.categoryId,
           userId: category.userId
-      
+
         });
 
         console.log('Category Details', this.category);
