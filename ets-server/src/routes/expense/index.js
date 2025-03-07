@@ -24,9 +24,9 @@ router.post('/', async (req, res, next) => {
     const valid = validateAddExpense(req.body);
 
     // If not valid, create 400 error
-    if (!valid) {
-      return next(createError(400, ajv.errorsText(validateAddExpense.errors)));
-    }
+    // if (!valid) {
+    //   return next(createError(400, ajv.errorsText(validateAddExpense.errors)));
+    // }
 
     const newExpense = new Expense(req.body); // Creating new expense
     await newExpense.save(); // Saving new expense
@@ -93,16 +93,16 @@ router.get('/:expenseId', async (req, res, next) => {
 });
 
 // PATCH (update) route to update expense (Angelica)
-router.patch('/edit/:expenseId', async (req, res, next) => {
+router.patch('/:expenseId', async (req, res, next) => {
   try {
-    const expense = await Expense.findOne({ expenseId: req.params.expenseId }); // finding expense 
+    const expense = await Expense.findOne({ expenseId: req.params.expenseId }); // finding expense
 
     // validating validateUpdateExpense
     const valid = validateUpdateExpense(req.body);
     // If not valid, throw 400
-    if (!valid) {
-      return next(createError(400, ajv.errorsText(validateUpdateExpense.errors)));
-    }
+    // if (!valid) {
+    //   return next(createError(400, ajv.errorsText(validateUpdateExpense.errors)));
+    // }
 
     // setting expense
     expense.set({

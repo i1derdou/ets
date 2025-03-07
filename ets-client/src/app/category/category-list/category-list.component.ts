@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { Category } from '../category';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-category-list',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, FormsModule],
   template: `
     <div class="category-page">
       <h1 class="category-page__title">Category List</h1>
@@ -17,7 +18,11 @@ import { RouterLink } from '@angular/router';
           {{ serverMessage }}
         </div>
       }
-      @if (categories && categories.length > 0) {
+      <!-- @if (categories && categories.length > 0) { dClemens - Changed for filtered categories -->
+      @if (filteredCategories.length > 0) {
+        <div style="width:40%; float:right; text-align:right; padding-right:20px;">
+          <input type="text" class="category-page__search" placeholder="Search categories..." [(ngModel)]="searchQuery" (input)="filterCategories()" />
+        </div>
         <table class="category-page__table">
           <thead class="category-page__table-head">
             <tr class="category-page__table-row">
@@ -30,7 +35,9 @@ import { RouterLink } from '@angular/router';
             </tr>
           </thead>
           <tbody class="category-page__table-body">
-            <tr *ngFor="let category of categories" class="category-page__table-row">
+            <!-- <tr *ngFor="let category of categories" class="category-page__table-row"> dClemens - Changed for filtered categories -->
+            @for (category of filteredCategories; track category) {
+            <tr class="category-page__table-row">
               <td class="category-page__table-cell">{{ category.categoryId }}</td>
               <td class="category-page__table-cell">{{ category.name }}</td>
               <td class="category-page__table-cell">{{ category.description }}</td>
@@ -39,9 +46,10 @@ import { RouterLink } from '@angular/router';
               <td class="category-page__table-cell category-page__table-cell--functions">
                 <a routerLink="/categories/edit/{{category.categoryId}}" class="category-page__icon-link"><i class="fas fa-edit"></i>Edit</a>
                 <a routerLink="/categories/{{category.categoryId}}" class="expense-page__icon-link"><!--<i class="fas fa-edit"></i>-->View</a>
-                <a (click)="deleteCategory(category.categoryId)" class="category-page__icon-link"><i class="fas fa-trash-alt"></i>delete</a>
+                <a (click)="deleteCategory(category.categoryId)" class="category-page__icon-link"><i class="fas fa-trash-alt"></i>Delete</a>
               </td>
             </tr>
+            }
           </tbody>
         </table>
       } @else {
@@ -67,7 +75,7 @@ import { RouterLink } from '@angular/router';
     }
 
     .category-page__table-header {
-      background-color: #FFE484;
+      background-color: #e1e1e1;
       color: #000;
       border: 1px solid black;
       padding: 5px;
@@ -137,11 +145,21 @@ import { RouterLink } from '@angular/router';
       background-color: #dff0d8;
       border-color: #d6e9c6;
     }
+
+    .category-page__search {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 0px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
   `
 })
 
 export class CategoryListComponent {
   categories: Category[] = [];
+  filteredCategories: Category[] = [];
+  searchQuery: string = '';
   serverMessage: string | null = null;
   serverMessageType: 'success' | 'error' | null = null;
 
@@ -150,9 +168,12 @@ export class CategoryListComponent {
       next: (response: any) => {
         if (response && response.data) {
           this.categories = response.data;
+          this.filteredCategories = [...this.categories]; // Initialize filtered list
         } else {
           this.categories = [];
+          this.filteredCategories = [];
         }
+        console.log(`Categories: ${JSON.stringify(this.categories)}`);
       },
          error: (err: any) => {
             console.error(`Error occurred while retrieving categories: ${err}`);
@@ -163,7 +184,29 @@ export class CategoryListComponent {
         });
   }
 
-  deleteCategory(categoryId: number) {
-    confirm(`Do you want to delete Category with ID: ${categoryId}?`);
+  filterCategories() {
+    this.filteredCategories = this.categories.filter(category =>
+      Object.values(category).some(value =>
+        value.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
+      )
+    );
   }
+
+  deleteCategory(categoryId: number) {
+    if (!confirm(`Do you want to delete category with ID: ${categoryId}?`)) {
+      return;
+    }
+
+    this.categoryService.deleteCategory(categoryId).subscribe({
+      next: () => {
+        console.log(`Category with ID ${categoryId} deleted successfully`);
+        this.categories = this.categories.filter(c => c.categoryId !== categoryId);
+        this.filterCategories(); // Reapply filter after deletion
+      },
+      error: (err: any) => {
+        console.error(`Error occurred while deleting category with ID ${categoryId}: ${err}`);
+      }
+    });
+  }
+
 }

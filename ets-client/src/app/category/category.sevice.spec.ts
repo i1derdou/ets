@@ -107,7 +107,7 @@ describe('CategoryService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(dummyCategory);
   });
-
+*/
   it('should delete an existing catergory via the API', () => {
     service.deleteCategory(1).subscribe(response => {
       expect(response).toBeNull();
@@ -116,32 +116,27 @@ describe('CategoryService', () => {
     expect(req.request.method).toBe('DELETE');
     req.flush(null);
   });
-
   it('should update an existing category', () => {
-    const updateCategoryDTO: UpdateCategoryDTO = { 
-        _id: '67ad37aefc7f403e6955c701',
-        categoryId: 0,
-        userId: 0,
-        name: '',
-        description: '',
-        dateCreated: ''
+    const updateCategory: UpdateCategoryDTO = {
+      userId: 1000,
+      name: 'Meals',
+      description: 'Test'
     };
     
-    const updatedCategory: Category = {
-        _id: '67ad37aefc7f403e6955c701',
-        categoryId: 0,
-        userId: 0,
-        name: '',
-        description: '',
-        dateCreated: ''
+    const mockResponse: Category = {
+      categoryId: 32,
+      userId: 1000,
+      name: 'Meals',
+      description: 'Test',
+      dateCreated: '2021-01-01T00:00:00.000Z'
     };
-    service.updateCategory(updateCategoryDTO, 1).subscribe(category => {
-      expect(category).toEqual(updatedCategory);
+    service.updateCategory(updateCategory, 1).subscribe(category => {
+      expect(category).toEqual(mockResponse);
     });
 
     const req = httpMock.expectOne(`${environment.apiBaseUrl}/api/categories/1`);
     expect(req.request.method).toBe('PATCH');
-    req.flush(updatedCategory);
+    expect(req.request.body).toEqual(updateCategory);
+    req.flush(mockResponse);
   });
-  */
 });

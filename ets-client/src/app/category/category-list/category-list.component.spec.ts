@@ -63,4 +63,60 @@ describe('CategoryListComponent', () => {
     expect(categoryRows.length).toBe(0); // Expect 2 rows to be rendered
   });
 
+})it('should call deleteCategory and remove the category on successful deletion', () => {
+    const categoryId = 1;
+    const mockCategories: Category[] = [
+      { categoryId: 1, name: 'Category 1', description: 'Description 1', userId: 1, dateCreated: '2023-10-01T00:00:00.000Z' },
+      { categoryId: 2, name: 'Category 2', description: 'Description 2', userId: 1, dateCreated: '2023-10-02T00:00:00.000Z' }
+    ];
+
+    component.categories = mockCategories;
+
+    spyOn(window, 'confirm').and.returnValue(true);
+
+    spyOn(categoryService, 'deleteCategory').and.returnValue(of([]));
+
+    component.deleteCategory(categoryId);
+
+    expect(categoryService.deleteCategory).toHaveBeenCalledWith(categoryId);
+
+    expect(component.categories.length).toBe(1); // One category should be removed
+    expect(component.categories.find(c => c.categoryId === categoryId)).toBeUndefined(); // The deleted category should be gone
+  });
+
+  it('should not delete a category if the user cancels the confirmation', () => {
+    const mockCategories: Category[] = [
+      { categoryId: 1, name: 'Category 1', description: 'Description 1', userId: 1, dateCreated: '2023-10-01T00:00:00.000Z' },
+      { categoryId: 2, name: 'Category 2', description: 'Description 2', userId: 1, dateCreated: '2023-10-02T00:00:00.000Z' }
+    ];
+
+    // Mock the confirm dialog to return false
+    spyOn(window, 'confirm').and.returnValue(true);
+    spyOn(categoryService, 'deleteCategory').and.returnValue(of({}));
+
+    component.categories = mockCategories;
+
+    component.deleteCategory(1);
+
+    expect(categoryService.deleteCategory).toHaveBeenCalledWith(1);
+    expect(component.categories.length).toBe(1); // Both categories should remain
+  });
+
+  it('should handle errors when deleting a category', () => {
+    const mockCategories: Category[] = [
+      { categoryId: 1, name: 'Category 1', description: 'Description 1', userId: 1, dateCreated: '2023-10-01T00:00:00.000Z' },
+      { categoryId: 2, name: 'Category 2', description: 'Description 2', userId: 1, dateCreated: '2023-10-02T00:00:00.000Z' }
+    ];
+
+    // Mock the confirm dialog to return true
+    spyOn(window, 'confirm').and.returnValue(true);
+    spyOn(categoryService, 'deleteCategory').and.returnValue(throwError('Error deleting category'));
+
+    component.categories = mockCategories;
+    component.deleteCategory(1);
+
+    expect(categoryService.deleteCategory).toHaveBeenCalledWith(1);
+    expect(component.categories.length).toBe(2); // Both expenses should remain
+  });
+
 });

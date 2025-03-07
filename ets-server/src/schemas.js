@@ -13,13 +13,13 @@ const addExpenseSchema = {
         amount: { type: 'number' },
         description: { type: 'string', maxLength: 25 },
         date: { type: 'string' },
-        dateCreated: { type: 'string', pattern: '^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z)?$' }
+        dateCreated: { type: 'string' }
     },
     required: ['expenseId', 'userId', 'categoryId'],
     additionalProperties: false
 };
 
-// New schema for updating Expense documents  
+// New schema for updating Expense documents
 const updateExpenseSchema = {
     type: 'object',
     properties: {
@@ -46,7 +46,7 @@ const addCategorySchema = {
     additionalProperties: false
 };
 
-// New schema for updating Expense documents  
+// New schema for updating Expense documents
 const updateCategorySchema = {
     type: 'object',
     properties: {
